@@ -1,0 +1,61 @@
+[project]
+name = "dircap"
+version = "0.1.0"
+description = "Set folder size caps and get warned when you exceed them."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Varun Singh"}]
+keywords = ["disk", "quota", "folder", "cli", "storage"]
+dependencies = [
+  "typer>=0.21.1",
+  "rich>=14.2.0",
+  "tomli>=2.4.0; python_version < '3.11'",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=9.0.2",
+  "ruff>=0.14.13",
+]
+
+[project.scripts]
+dircap = "dircap.cli:app"
+
+[build-system]
+requires = ["setuptools>=80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["src/tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+  "E",   # pycodestyle errors
+  "W",   # pycodestyle warnings
+  "F",   # pyflakes
+  "I",   # isort
+  "B",   # flake8-bugbear
+  "C4",  # flake8-comprehensions
+  "UP",  # pyupgrade
+]
+ignore = [
+  "E501",  # line too long (handled by formatter)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]  # unused imports allowed in __init__.py
+"src/dircap/cli.py" = ["B008"]  # typer.Option() in defaults is the standard Typer pattern
